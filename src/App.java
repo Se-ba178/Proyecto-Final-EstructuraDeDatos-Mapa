@@ -1,39 +1,45 @@
-import java.awt.Color;
+import java.awt.BorderLayout;
 import javax.swing.*;
 
 public class App {
+
     public static void main(String[] args) {
-        //Configuracion ventana 
+
+        // Ventana
         JFrame frmMiVentana = new JFrame("Proyecto Final");
         frmMiVentana.setSize(1500, 800);
         frmMiVentana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frmMiVentana.setLayout(new BorderLayout());
 
-        // pa q se pueda mover 
-        JDesktopPane desktop = new JDesktopPane();
-        frmMiVentana.setContentPane(desktop);
+        // Barra de herramientas
+        JToolBar barra = new JToolBar("Opciones Para el Mapa ");
+        barra.setFloatable(true);
 
-        // Imagen Fondo
+        JButton btnAbrir = new JButton("Abrir");
+        JButton btnGuardar = new JButton("Guardar");
+        JButton btnEliminar = new JButton("Eliminar");
+
+        barra.add(btnAbrir);
+        barra.add(btnGuardar);
+        barra.add(btnEliminar);
+
+        // Imagen
         ImageIcon imagen = new ImageIcon("imagenes/Imagen Fondo.png");
         JLabel lblImagen = new JLabel(imagen);
-        lblImagen.setBounds(0, 0, 1500, 800);
-        desktop.add(lblImagen, Integer.valueOf(0)); //capa base 
+        lblImagen.setHorizontalAlignment(JLabel.CENTER);
 
-        JInternalFrame menuFlotante = new JInternalFrame("Barra De Menu", false, false, false, false);
-        menuFlotante.setBounds(50, 50, 260, 70); // Posición inicial y tamaño
-        
-        
-        JPanel panelBotones = new JPanel();
-        panelBotones.setBackground(Color.DARK_GRAY); // Un color más moderno
-        panelBotones.add(new JButton("Abrir"));
-        panelBotones.add(new JButton("Guardar"));
-        panelBotones.add(new JButton("Eliminar"));
-        
-        menuFlotante.add(panelBotones);
-        menuFlotante.setVisible(true);
+        // Área de resultados
+        JTextArea txtResultados = new JTextArea(5, 20);
+        txtResultados.setEditable(false);
 
-        // Añadimos el menú en una capa superior (capa 1)
-        desktop.add(menuFlotante, Integer.valueOf(1));
+        JScrollPane scroll = new JScrollPane(txtResultados);
 
+        // Agregar componentes
+        frmMiVentana.add(barra, BorderLayout.NORTH);
+        frmMiVentana.add(lblImagen, BorderLayout.CENTER);
+        frmMiVentana.add(scroll, BorderLayout.SOUTH);
+
+        frmMiVentana.setLocationRelativeTo(null);
         frmMiVentana.setVisible(true);
     }
 }
