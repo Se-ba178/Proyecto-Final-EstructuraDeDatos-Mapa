@@ -15,5 +15,3 @@ public interface GraphRepository {
                             MapPanel mapa) throws IOException;
 
 }
-    
-

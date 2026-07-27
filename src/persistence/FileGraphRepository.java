@@ -91,7 +91,7 @@ public class FileGraphRepository implements GraphRepository {
 
         Graph<PuntoMapa> grafo = new Graph<>();
 
-        mapa.limpiar();
+        mapa.limpiarInicioFin();
 
         BufferedReader br = new BufferedReader(new FileReader(archivo));
 
@@ -152,7 +152,6 @@ public class FileGraphRepository implements GraphRepository {
     }
 
 }
-    
 
 
     

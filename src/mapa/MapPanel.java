@@ -12,6 +12,7 @@ public class MapPanel extends JPanel {
     private PuntoMapa inicio;
     private PuntoMapa fin;
     private ArrayList<PuntoMapa> ruta;
+    
 
     public MapPanel() {
         ImageIcon icono = new ImageIcon("imagenes/Imagen Fondo.png");
@@ -104,11 +105,11 @@ public class MapPanel extends JPanel {
         return puntos;
     }
 
-    public void limpiar(){
-        puntos.clear();
-        inicio = null;
-        fin = null;
+    public void limpiarInicioFin(){
+        inicio= null;
+        fin= null;
         ruta.clear();
         repaint();
     }
+    
 }
