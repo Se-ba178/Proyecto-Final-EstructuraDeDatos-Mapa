@@ -9,6 +9,13 @@
             "name": "Ventana",
             "request": "launch",
             "mainClass": "structures.node.ventana.Ventana",
+            "projectName": "Proyecto-Final-EstructuraDeDatos-Mapa_ba9368ba"
+        },
+        {
+            "type": "java",
+            "name": "Ventana",
+            "request": "launch",
+            "mainClass": "structures.node.ventana.Ventana",
             "projectName": "Proyecto-Final-EstructuraDeDatos-Mapa_fc92b9d4"
         },
         {
