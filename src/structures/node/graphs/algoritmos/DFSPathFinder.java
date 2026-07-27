@@ -2,10 +2,10 @@ package structures.node.graphs.algoritmos;
 
 import java.util.*;
 
-import structures.node.Node;
 import structures.node.graphs.Graph;
 import structures.node.graphs.PathFinder;
 import structures.node.graphs.PathResult;
+import structures.node.node.Node;
 
 public class DFSPathFinder<T> implements PathFinder<T>{
 

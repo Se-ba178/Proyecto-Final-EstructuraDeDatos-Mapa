@@ -80,8 +80,9 @@ public class Ventana {
         menuBusqueda.add(opcionDFS);
 
         // MAPA
+        final Graph<PuntoMapa>[] grafo = new Graph[] { new Graph<>() };
 
-        MapPanel mapa = new MapPanel();
+        MapPanel mapa = new MapPanel(grafo[0]);
 
         // RESULTADOS
 
@@ -96,7 +97,8 @@ public class Ventana {
         frmMiVentana.add(mapa, BorderLayout.CENTER);
         frmMiVentana.add(scroll, BorderLayout.SOUTH);
 
-        final Graph<PuntoMapa>[] grafo = new Graph[] { new Graph<>() };
+       
+        
 
         FileGraphRepository repositorio = new FileGraphRepository();
 
@@ -105,6 +107,7 @@ public class Ventana {
         try {
 
             grafo[0] = repositorio.cargar("mapa.txt", mapa);
+            
 
             System.out.println("Mapa cargado correctamente.");
 
@@ -202,7 +205,7 @@ public class Ventana {
         limpiar.addActionListener(e -> {
             mapa.limpiarInicioFin();
             txtResultados.setText("");
-            
+
 
 
         });

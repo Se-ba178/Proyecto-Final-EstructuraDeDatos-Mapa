@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import structures.node.Node;
+import structures.node.node.Node;
 
 
 public class Graph<T> {
