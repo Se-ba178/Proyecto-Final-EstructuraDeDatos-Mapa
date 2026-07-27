@@ -1,26 +1,20 @@
 package mapa;
 
-import java.util.ArrayList;
+
 
 public class PuntoMapa {
-
 
     private int x;
     private int y;
     private String nombre;
 
-    // Nodos conectados a este nodo
-    private ArrayList<PuntoMapa> vecinos;
-
     public PuntoMapa() {
-        vecinos = new ArrayList<>();
     }
 
     public PuntoMapa(int x, int y, String nombre) {
-        this.nombre = nombre;
         this.x = x;
         this.y = y;
-        vecinos = new ArrayList<>();
+        this.nombre = nombre;
     }
 
     public String getNombre() {
@@ -36,12 +30,10 @@ public class PuntoMapa {
     }
 
     public void setX(int x) {
-
         this.x = x;
     }
 
     public int getY() {
-
         return y;
     }
 
@@ -49,26 +41,40 @@ public class PuntoMapa {
         this.y = y;
     }
 
-    // Agregar conexión con otro nodo
-    public void agregarVecino(PuntoMapa punto) {
-        if(!vecinos.contains(punto)){
-            vecinos.add(punto);
-        }
-    }
-
-    // Obtener nodos conectados
-    public ArrayList<PuntoMapa> getVecinos(){
-        return vecinos;
-    }
-
-    // Crear conexión de ida y vuelta
-    public void conectar(PuntoMapa punto){
-        agregarVecino(punto);
-        punto.agregarVecino(this);
+    @Override
+    public String toString() {
+        return nombre;
     }
 
     @Override
-    public String toString(){
-        return nombre;
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + x;
+        result = prime * result + y;
+        result = prime * result + ((nombre == null) ? 0 : nombre.hashCode());
+        return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PuntoMapa other = (PuntoMapa) obj;
+        if (x != other.x)
+            return false;
+        if (y != other.y)
+            return false;
+        if (nombre == null) {
+            if (other.nombre != null)
+                return false;
+        } else if (!nombre.equals(other.nombre))
+            return false;
+        return true;
+    }
+    
 }
