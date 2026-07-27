@@ -1,16 +1,15 @@
 package structures.node.graphs;
-
-import java.util.Set;
+import java.util.*;
 
 /**
  * PathResult
  */
 public class PathResult<T> {
     private final Set<T> visitados;
-    private final Set<T> camino;
+    private final List<T> camino;
 
 
-    public PathResult(Set<T> visitados, Set<T> camino) {
+    public PathResult(Set<T> visitados, List<T> camino) {
         this.visitados = visitados;
         this.camino = camino;
     }
@@ -21,7 +20,7 @@ public class PathResult<T> {
     }
 
 
-    public Set<T> getPath() {
+    public List<T> getPath() {
         return camino;
     }
 
