@@ -17,7 +17,7 @@ public class Ventana {
     public static void main(String[] args) {
 
         JFrame frmMiVentana = new JFrame("Proyecto Final");
-        frmMiVentana.setSize(1500, 800);
+        frmMiVentana.setSize(1550, 820);
         frmMiVentana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmMiVentana.setLayout(new BorderLayout());
 
