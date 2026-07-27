@@ -1,24 +1,25 @@
 package structures.node.node;
 
-public class Node<T> {
-    private T value;
+import java.util.Objects;
+
+public class Node <T> { 
+    private T datos;
 
     public Node() {
     }
-
-    public Node(T value) {
-        this.value = value;
+    public Node(T datos){
+        this.datos = datos;
     }
-
-    public T getValue() {
-        return value;
+    public T getDatos() {
+        return datos;
     }
-
-    public void setValue(T value) {
-        this.value = value;
+    public void setDatos(T datos) {
+        this.datos = datos;
     }
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(datos);
+    }
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -27,16 +28,18 @@ public class Node<T> {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Node other = (Node) obj;
-        if (value == null) {
-            if (other.value != null)
+        Node<?> other = (Node<?>) obj;
+        if (datos == null) {
+            if (other.datos != null)
                 return false;
-        } else if (!value.equals(other.value))
+        } else if (!datos.equals(other.datos))
             return false;
         return true;
     }
-    
-
+    @Override
+    public String toString() {
+        return "Node [" + datos + "]";
+    }
     
 
     

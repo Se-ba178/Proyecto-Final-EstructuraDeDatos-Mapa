@@ -5,6 +5,8 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
+import structures.node.graphs.Graph;
+
 public class MapPanel extends JPanel {
 
     private Image mapa;
@@ -13,8 +15,12 @@ public class MapPanel extends JPanel {
     private PuntoMapa fin;
     private ArrayList<PuntoMapa> ruta;
     
+    
 
-    public MapPanel() {
+    
+
+    public MapPanel(Graph<PuntoMapa> grafo) {
+        
         ImageIcon icono = new ImageIcon("imagenes/Imagen Fondo.png");
         mapa = icono.getImage();
         puntos = new ArrayList<>();
@@ -48,6 +54,12 @@ public class MapPanel extends JPanel {
                 if(nombre != null && !nombre.isEmpty()){
                     PuntoMapa punto = new PuntoMapa(x,y,nombre);
                     agregarPunto(punto);
+                    grafo.add(punto);
+                    if(!puntos.isEmpty() && puntos.size()>1){
+                        PuntoMapa anterior=puntos.get(puntos.size()-2);
+                        grafo.addEdge(anterior, punto);
+                    }
+                    
                 }
             }
         });

@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import structures.node.Node;
 import structures.node.graphs.Graph;
 import structures.node.graphs.PathFinder;
 import structures.node.graphs.PathResult;
+import structures.node.node.Node;
 
 public class DFSPathFinder<T> implements PathFinder<T>{
 

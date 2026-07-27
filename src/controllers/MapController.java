@@ -1,8 +1,8 @@
 package controllers;
 
 import mapa.PuntoMapa;
-import structures.node.Node;
 import structures.node.graphs.Graph;
+import structures.node.node.Node;
 
 public class MapController {
     private Graph<PuntoMapa> graph;
