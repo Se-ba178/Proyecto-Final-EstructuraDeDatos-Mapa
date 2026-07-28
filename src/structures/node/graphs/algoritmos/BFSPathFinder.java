@@ -10,46 +10,32 @@ import structures.node.node.Node;
 public class BFSPathFinder<T> implements PathFinder<T> {
 
     @Override
-    public PathResult<T> find(Graph<T> graph, T start, T end) {
-
+    public PathResult<T> find(Graph<T> graph, T start, T end) {//Busca un camino entre dos nodos utilizando el recorrido BFS visto en clase
         Queue<T> cola = new LinkedList<>();
         Set<T> visitados = new HashSet<>();
         Map<T, T> padre = new HashMap<>();
-
         cola.offer(start);
         visitados.add(start);
-
         while (!cola.isEmpty()) {
-
             T actual = cola.poll();
-
             if (actual.equals(end)) {
                 break;
             }
-
             for (Node<T> vecino : graph.getVecinos(actual)) {
-
                 T datoVecino = vecino.getDatos();
-
                 if (!visitados.contains(datoVecino)) {
-
                     visitados.add(datoVecino);
                     padre.put(datoVecino, actual);
                     cola.offer(datoVecino);
-
                 }
             }
         }
-
         List<T> camino = reconstruirCamino(padre, start, end);
-
         return new PathResult<>(visitados, camino);
     }
 
-    private List<T> reconstruirCamino(Map<T, T> padre, T inicio, T fin) {
-
+    private List<T> reconstruirCamino(Map<T, T> padre, T inicio, T fin) {//Reconstruye el camino desde el nodo incial hasta el nodo final 
         List<T> camino = new ArrayList<>();
-
         if (!inicio.equals(fin) && !padre.containsKey(fin)) {
             return camino;
         }
@@ -58,9 +44,6 @@ public class BFSPathFinder<T> implements PathFinder<T> {
             camino.add(0, actual);
             actual = padre.get(actual);
         }
-
         return camino;
     }
-
-    
 }

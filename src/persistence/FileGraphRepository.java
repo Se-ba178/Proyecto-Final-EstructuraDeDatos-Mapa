@@ -10,7 +10,7 @@ import structures.node.node.Node;
 public class FileGraphRepository implements GraphRepository {
 
     @Override
-    public void guardar(String archivo,Graph<PuntoMapa> grafo,MapPanel mapa) throws IOException {
+    public void guardar(String archivo,Graph<PuntoMapa> grafo,MapPanel mapa) throws IOException {//Guarda los nodos y las conexiones y datos del mapa en el archivo txt
         BufferedWriter bw = new BufferedWriter(new FileWriter(archivo));
         for (PuntoMapa p : mapa.getPuntos()) {
             bw.write("NODE;"+ p.getNombre() + ";"+ p.getX() + ";"+ p.getY());
@@ -46,7 +46,7 @@ public class FileGraphRepository implements GraphRepository {
     }
 
     @Override
-    public Graph<PuntoMapa> cargar(String archivo, MapPanel mapa) throws IOException {
+    public Graph<PuntoMapa> cargar(String archivo, MapPanel mapa) throws IOException {//Lee un archivo y reconstruye el grafo con sus nodos y conexiones.
         Graph<PuntoMapa> grafo = new Graph<>();
         mapa.limpiarInicioFin();
         BufferedReader br = new BufferedReader(new FileReader(archivo));

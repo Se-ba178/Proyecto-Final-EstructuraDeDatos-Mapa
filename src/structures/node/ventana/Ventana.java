@@ -15,8 +15,6 @@ import times.MedidorTiempo;
 import times.ResultadoTiempo;
 
 public class Ventana {
-    // private static Graph<PuntoMapa> grafo = new Graph<>();
-
     public static void main(String[] args) {
 
         // creacion de la ventana principal en la q añadiremos todos los componentes
@@ -107,45 +105,27 @@ public class Ventana {
         // BFS
         opcionBFS.addActionListener(e -> {
             if (mapa.getInicio() != null && mapa.getFin() != null) {
-
                 System.out.println("Inicio: " + mapa.getInicio());
                 System.out.println("Fin: " + mapa.getFin());
                 System.out.println("Vecinos del inicio: " + grafo[0].getVecinos(mapa.getInicio()));
-
                 // Ejecutar BFS y medir el tiempo
-                ResultadoTiempo resultado = MedidorTiempo.ejecutar(
-                        new BFSPathFinder<>(),
-                        grafo[0],
-                        mapa.getInicio(),
-                        mapa.getFin());
-
+                ResultadoTiempo resultado = MedidorTiempo.ejecutar(new BFSPathFinder<>(),grafo[0],mapa.getInicio(),mapa.getFin());
                 ArrayList<PuntoMapa> camino = new ArrayList<>(resultado.getRuta());
-
                 System.out.println("Camino BFS: " + camino);
-
                 mapa.mostrarRuta(camino);
-
                 txtResultados.setText("Ruta encontrada con BFS\n");
-
                 if (camino.isEmpty()) {
-
                     txtResultados.append("No se encontró una ruta.");
-
                 } else {
-
                     for (PuntoMapa p : camino) {
                         txtResultados.append(p.getNombre() + " -> ");
                     }
-
                     txtResultados.append("\n");
                     txtResultados.append("Cantidad de aristas: " + resultado.getAristas());
                 }
-
                 // Mostrar el tiempo de ejecución
                 txtTiempo.setText(String.format("%.6f ms", resultado.getTiempo()));
-
                 ventanaResultados.setVisible(true);
-
             } else {
                 JOptionPane.showMessageDialog(null, "Seleccione nodo inicio y nodo final");
             }
@@ -160,39 +140,23 @@ public class Ventana {
                 System.out.println("Vecinos del inicio: " + grafo[0].getVecinos(mapa.getInicio()));
 
                 // Ejecutar DFS y medir el tiempo
-                ResultadoTiempo resultado = MedidorTiempo.ejecutar(
-                        new DFSPathFinder<>(),
-                        grafo[0],
-                        mapa.getInicio(),
-                        mapa.getFin());
-
+                ResultadoTiempo resultado = MedidorTiempo.ejecutar(new DFSPathFinder<>(), grafo[0], mapa.getInicio(), mapa.getFin());
                 ArrayList<PuntoMapa> camino = new ArrayList<>(resultado.getRuta());
-
                 System.out.println("Camino DFS: " + camino);
-
                 mapa.mostrarRuta(camino);
-
                 txtResultados.setText("Ruta encontrada con DFS\n");
-
                 if (camino.isEmpty()) {
-
                     txtResultados.append("No se encontró una ruta.");
-
                 } else {
-
                     for (PuntoMapa p : camino) {
                         txtResultados.append(p.getNombre() + " -> ");
                     }
-
                     txtResultados.append("\n");
                     txtResultados.append("Cantidad de aristas: " + resultado.getAristas());
                 }
-
                 // Mostrar el tiempo de ejecución
                 txtTiempo.setText(String.format("%.6f ms", resultado.getTiempo()));
-
                 ventanaResultados.setVisible(true);
-
             } else {
                 JOptionPane.showMessageDialog(null, "Seleccione nodo inicio y nodo final");
             }

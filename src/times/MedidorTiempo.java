@@ -8,6 +8,7 @@ import structures.node.graphs.PathResult;
 public class MedidorTiempo {
     
     public static ResultadoTiempo ejecutar(PathFinder<PuntoMapa> algoritmo,Graph<PuntoMapa> grafo, PuntoMapa inicio, PuntoMapa fin) {
+        //ejecuta el algoritmo y registra el tiempo empleado
         long inicioTiempo = System.nanoTime();
         PathResult<PuntoMapa> resultado = algoritmo.find(grafo, inicio, fin);
         long finTiempo = System.nanoTime();

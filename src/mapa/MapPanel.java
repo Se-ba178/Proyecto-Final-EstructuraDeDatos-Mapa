@@ -84,7 +84,7 @@ public class MapPanel extends JPanel {
         }
     }
 
-    public void mouseClicked(MouseEvent e) {
+    public void mouseClicked(MouseEvent e) {// crea un evento q va a controlar las acciones q tenganal hacer clik sobre el mapa procesa los cliks del ususario sobre eel modo q escogio
         int x = e.getX();
         int y = e.getY();
         PuntoMapa seleccionado = null;
@@ -126,48 +126,30 @@ public class MapPanel extends JPanel {
         }
         if (modo.equals("AGREGAR")) {
             if (seleccionado == null) {
-
                 String nombre = JOptionPane.showInputDialog("Nombre del nodo:");
-
                 if (nombre != null && !nombre.isBlank()) {
-
                     PuntoMapa punto = new PuntoMapa(x, y, nombre);
-
                     agregarPunto(punto);
                     grafo.add(punto);
-
                     // Buscar el nodo existente más cercano
                     PuntoMapa masCercano = null;
                     double menorDistancia = Double.MAX_VALUE;
-
                     for (PuntoMapa p : puntos) {
-
                         if (p.equals(punto)) {
                             continue; // No compararse consigo mismo
                         }
-
-                        double distancia = Math.sqrt(
-                                Math.pow(p.getX() - x, 2)
-                                        + Math.pow(p.getY() - y, 2));
-
+                        double distancia = Math.sqrt(Math.pow(p.getX() - x, 2) + Math.pow(p.getY() - y, 2));
                         if (distancia < menorDistancia) {
                             menorDistancia = distancia;
                             masCercano = p;
                         }
                     }
-
                     // Conectar con el nodo más cercano
                     if (masCercano != null) {
                         grafo.addEdge(masCercano, punto);
-
-                        System.out.println("Conectado: "
-                                + masCercano.getNombre()
-                                + " <-> "
-                                + punto.getNombre());
-
+                        System.out.println("Conectado: "+ masCercano.getNombre() + " <-> " + punto.getNombre());
                         grafo.printGrafo();
                     }
-
                     repaint();
                 }
             }

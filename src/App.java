@@ -1,12 +1,7 @@
-
-import structures.node.graphs.Graph;
-import structures.node.graphs.PathFinder;
-import structures.node.graphs.PathResult;
-import structures.node.graphs.algoritmos.BFSPathFinder;
-
 public class App {
 
     public static void main(String[] args) {
+        //Aqui utilizamos para hacer pruebas antes de realizar la interfaz 
         // Graph<String> mapa = new Graph<>();
         // mapa.add("A");
         // mapa.add("B");
