@@ -8,7 +8,7 @@ import javax.swing.*;
 import mapa.MapPanel;
 import mapa.PuntoMapa;
 import structures.node.graphs.Graph;
-import structures.node.graphs.PathResult;
+
 import structures.node.graphs.algoritmos.BFSPathFinder;
 import structures.node.graphs.algoritmos.DFSPathFinder;
 import times.MedidorTiempo;
