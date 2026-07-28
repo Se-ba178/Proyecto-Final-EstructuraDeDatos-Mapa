@@ -128,11 +128,17 @@ public class Ventana {
                 txtResultados.setText("Ruta encontrada con BFS\n");
 
                 if (camino.isEmpty()) {
+
                     txtResultados.append("No se encontró una ruta.");
+
                 } else {
+
                     for (PuntoMapa p : camino) {
                         txtResultados.append(p.getNombre() + " -> ");
                     }
+
+                    txtResultados.append("\n");
+                    txtResultados.append("Cantidad de aristas: " + resultado.getAristas());
                 }
 
                 // Mostrar el tiempo de ejecución
@@ -169,11 +175,17 @@ public class Ventana {
                 txtResultados.setText("Ruta encontrada con DFS\n");
 
                 if (camino.isEmpty()) {
+
                     txtResultados.append("No se encontró una ruta.");
+
                 } else {
+
                     for (PuntoMapa p : camino) {
                         txtResultados.append(p.getNombre() + " -> ");
                     }
+
+                    txtResultados.append("\n");
+                    txtResultados.append("Cantidad de aristas: " + resultado.getAristas());
                 }
 
                 // Mostrar el tiempo de ejecución
