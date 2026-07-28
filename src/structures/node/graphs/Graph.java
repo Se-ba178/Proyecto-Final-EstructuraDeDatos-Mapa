@@ -63,7 +63,7 @@ public class Graph<T> {
 
     ///// Ver q son 
     public void remove(T datos) {
-        Node<T> node = new Node<>();
+        Node<T> node = new Node<>(datos);
         graph.remove(node);
         for (Set<Node<T>> vecinos : graph.values()) {
             vecinos.remove(node);
