@@ -2,7 +2,8 @@ package structures.node.node;
 
 import java.util.Objects;
 
-public class Node <T> { 
+public class Node <T> {// una clase de tipo generica 
+    //atributo
     private T datos;
 
     public Node() {

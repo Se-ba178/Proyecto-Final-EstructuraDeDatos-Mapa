@@ -11,38 +11,41 @@ import structures.node.graphs.Graph;
 import structures.node.graphs.PathResult;
 import structures.node.graphs.algoritmos.BFSPathFinder;
 import structures.node.graphs.algoritmos.DFSPathFinder;
+import times.MedidorTiempo;
+import times.ResultadoTiempo;
 
 public class Ventana {
+    // private static Graph<PuntoMapa> grafo = new Graph<>();
 
     public static void main(String[] args) {
 
+        // creacion de la ventana principal en la q añadiremos todos los componentes
         JFrame frmMiVentana = new JFrame("Proyecto Final");
         frmMiVentana.setSize(1550, 820);
         frmMiVentana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmMiVentana.setLayout(new BorderLayout());
 
-        // MENU SUPERIOR
-
+        // menu q contiene las opciones y cerrarle
         JMenuBar menu = new JMenuBar();
-
         JMenu archivo = new JMenu("Opciones");
-
         JMenu salir = new JMenu("Pulse aqui para salir ");
-
         JMenuItem salirD = new JMenuItem("Salir");
         salir.add(salirD);
-
         menu.add(archivo);
         menu.add(salir);
+        // resultados de tiempo
+        JTextField txtTiempo = new JTextField(15);
+        txtTiempo.setEditable(false);
+        txtTiempo.setText("Tiempo :");
+        ;
 
         // BARRA LATERAL
-
         JToolBar barra = new JToolBar(JToolBar.VERTICAL);
         barra.setOrientation(JToolBar.VERTICAL);
         barra.setFloatable(false);
         barra.setPreferredSize(new Dimension(170, 0));
 
-
+        // cracion de botones para todas las opciones de nuestro mapa
         JButton play = new JButton("Ejecutar");
         JButton limpiar = new JButton("Limpiar");
         JButton inicio = new JButton("Marcar inicio");
@@ -51,6 +54,7 @@ public class Ventana {
         JButton eliminar = new JButton("Eliminar Nodo");
         JButton guardar = new JButton("Guardar");
 
+        // añadimos los botones a la barra menu
         barra.add(play);
         barra.add(limpiar);
         barra.add(inicio);
@@ -59,68 +63,83 @@ public class Ventana {
         barra.add(eliminar);
         barra.add(guardar);
         barra.addSeparator();
-        
+        barra.add(new JLabel("Tiempo"));
+        barra.add(txtTiempo);
 
-
-        // MENU BFS DFS
-
+        // menu con las os opciones de BFS y DFS
         JPopupMenu menuBusqueda = new JPopupMenu();
-
         JMenuItem opcionBFS = new JMenuItem("Metodo -> BFS");
         JMenuItem opcionDFS = new JMenuItem("Metodo -> DFS");
 
         menuBusqueda.add(opcionBFS);
         menuBusqueda.add(opcionDFS);
 
-        // MAPA
         final Graph<PuntoMapa>[] grafo = new Graph[] { new Graph<>() };
-
         MapPanel mapa = new MapPanel(grafo[0]);
 
-        // RESULTADOS
-
+        // se crea un espacio onde poner todos los resultados
         JTextArea txtResultados = new JTextArea();
         txtResultados.setEditable(false);
 
-        JFrame ventanaResultados = new JFrame("Resultados");
-        ventanaResultados.setSize(250, 400);
+        // se crea una ventana q aparecera cn todos los resultados obtenidos
+        JFrame ventanaResultados = new JFrame(" Nodos Visitados");
+        ventanaResultados.setSize(600, 100);
         ventanaResultados.add(new JScrollPane(txtResultados));
         ventanaResultados.setLocation(200, 100);
-        // AGREGAR
+
+        // agregamso todo lo q creamos a la ventana pricnipala pa q se muestre
         frmMiVentana.setJMenuBar(menu);
         frmMiVentana.add(barra, BorderLayout.WEST);
         frmMiVentana.add(mapa, BorderLayout.CENTER);
-
 
         FileGraphRepository repositorio = new FileGraphRepository();
 
         System.out.println("Ruta actual: " + new java.io.File(".").getAbsolutePath());
         try {
             grafo[0] = repositorio.cargar("mapa.txt", mapa);
+            mapa.setGrafo(grafo[0]);
             System.out.println("Mapa cargado correctamente.");
         } catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("No se pudo cargar mapa.txt");
         }
 
-        // EVENTOS
-        salirD.addActionListener(e -> System.exit(0));
-        play.addActionListener(e -> {
-            menuBusqueda.show(play, 0, play.getHeight());
-        });
-
         // BFS
         opcionBFS.addActionListener(e -> {
             if (mapa.getInicio() != null && mapa.getFin() != null) {
-                BFSPathFinder<PuntoMapa> bfs = new BFSPathFinder<>();
-                PathResult<PuntoMapa> resultado = bfs.find(grafo[0], mapa.getInicio(), mapa.getFin());
-                ArrayList<PuntoMapa> camino = new ArrayList<>(resultado.getPath());
+
+                System.out.println("Inicio: " + mapa.getInicio());
+                System.out.println("Fin: " + mapa.getFin());
+                System.out.println("Vecinos del inicio: " + grafo[0].getVecinos(mapa.getInicio()));
+
+                // Ejecutar BFS y medir el tiempo
+                ResultadoTiempo resultado = MedidorTiempo.ejecutar(
+                        new BFSPathFinder<>(),
+                        grafo[0],
+                        mapa.getInicio(),
+                        mapa.getFin());
+
+                ArrayList<PuntoMapa> camino = new ArrayList<>(resultado.getRuta());
+
+                System.out.println("Camino BFS: " + camino);
+
                 mapa.mostrarRuta(camino);
-                txtResultados.setText("Ruta encontrada con BFS\\n\n");
-                for (PuntoMapa p : camino) {
-                    txtResultados.append(p.getNombre() + "\n");
+
+                txtResultados.setText("Ruta encontrada con BFS\n");
+
+                if (camino.isEmpty()) {
+                    txtResultados.append("No se encontró una ruta.");
+                } else {
+                    for (PuntoMapa p : camino) {
+                        txtResultados.append(p.getNombre() + " -> ");
+                    }
                 }
+
+                // Mostrar el tiempo de ejecución
+                txtTiempo.setText(String.format("%.6f ms", resultado.getTiempo()));
+
                 ventanaResultados.setVisible(true);
+
             } else {
                 JOptionPane.showMessageDialog(null, "Seleccione nodo inicio y nodo final");
             }
@@ -129,18 +148,46 @@ public class Ventana {
         // DFS
         opcionDFS.addActionListener(e -> {
             if (mapa.getInicio() != null && mapa.getFin() != null) {
-                DFSPathFinder<PuntoMapa> dfs = new DFSPathFinder<>();
-                PathResult<PuntoMapa> resultado = dfs.find(grafo[0], mapa.getInicio(), mapa.getFin());
-                ArrayList<PuntoMapa> camino = new ArrayList<>(resultado.getPath());
+
+                System.out.println("Inicio: " + mapa.getInicio());
+                System.out.println("Fin: " + mapa.getFin());
+                System.out.println("Vecinos del inicio: " + grafo[0].getVecinos(mapa.getInicio()));
+
+                // Ejecutar DFS y medir el tiempo
+                ResultadoTiempo resultado = MedidorTiempo.ejecutar(
+                        new DFSPathFinder<>(),
+                        grafo[0],
+                        mapa.getInicio(),
+                        mapa.getFin());
+
+                ArrayList<PuntoMapa> camino = new ArrayList<>(resultado.getRuta());
+
+                System.out.println("Camino DFS: " + camino);
+
                 mapa.mostrarRuta(camino);
-                txtResultados.setText("Ruta encontrada con DFS\\n\n");
-                for (PuntoMapa p : camino) {
-                    txtResultados.append(p.getNombre() + "\n");
+
+                txtResultados.setText("Ruta encontrada con DFS\n");
+
+                if (camino.isEmpty()) {
+                    txtResultados.append("No se encontró una ruta.");
+                } else {
+                    for (PuntoMapa p : camino) {
+                        txtResultados.append(p.getNombre() + " -> ");
+                    }
                 }
+
+                // Mostrar el tiempo de ejecución
+                txtTiempo.setText(String.format("%.6f ms", resultado.getTiempo()));
+
                 ventanaResultados.setVisible(true);
+
             } else {
                 JOptionPane.showMessageDialog(null, "Seleccione nodo inicio y nodo final");
             }
+        });
+
+        play.addActionListener(e -> {
+            menuBusqueda.show(play, 0, play.getHeight());
         });
 
         guardar.addActionListener(e -> {

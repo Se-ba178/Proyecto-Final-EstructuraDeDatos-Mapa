@@ -9,22 +9,22 @@ import structures.node.graphs.Graph;
 
 public class MapPanel extends JPanel {
 
-    private Image mapa;
-    private ArrayList<PuntoMapa> puntos;
+    private Image mapa;// la imagen del apa de fondo
+    private ArrayList<PuntoMapa> puntos;// lista donde se vana agregar los nodos
     private PuntoMapa inicio;
     private PuntoMapa fin;
-    private ArrayList<PuntoMapa> ruta;
-    private String modo = "INICIO";
-    private Graph<PuntoMapa> grafo;
+    private ArrayList<PuntoMapa> ruta;// ya sea BFS-DFS
+    private String modo = "INICIO"; // se puede cambiar para q ni bien se ejecute se puedan agregar nodos
+    private Graph<PuntoMapa> grafo;// grafo donde estan conectados los nodos
 
     public MapPanel(Graph<PuntoMapa> grafo) {
         this.grafo = grafo;
-        ImageIcon icono = new ImageIcon("imagenes/Imagen Fondo.png");
+        ImageIcon icono = new ImageIcon("imagenes/Imagen Fondo.png");// cargar la imagen
         mapa = icono.getImage();
-        puntos = new ArrayList<>();
-        ruta = new ArrayList<>();
-        setBackground(Color.WHITE);
-        // Detectar clic en mapa
+        puntos = new ArrayList<>();// lista vacia
+        ruta = new ArrayList<>();// lista vacia
+        setBackground(Color.WHITE);// si no carga la imagen fondo blanco
+        // evento al detctar clik
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -33,11 +33,13 @@ public class MapPanel extends JPanel {
         });
     }
 
+    // aregar un punto a l lista de puntos
     public void agregarPunto(PuntoMapa punto) {
         puntos.add(punto);
         repaint();
     }
 
+    // se borra la ruta anterior , copia la ruta actual y vuelve a dibujar el anel
     public void mostrarRuta(ArrayList<PuntoMapa> camino) {
         ruta.clear();
         ruta.addAll(camino);
@@ -47,8 +49,8 @@ public class MapPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
 
+        Graphics2D g2 = (Graphics2D) g;
         // Suaviza las líneas
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -57,7 +59,6 @@ public class MapPanel extends JPanel {
         if (mapa != null) {
             g2.drawImage(mapa, 0, 0, getWidth(), getHeight(), this);
         }
-
         // Dibujar ruta
         if (ruta != null && ruta.size() > 1) {
             g2.setColor(Color.MAGENTA);
@@ -84,60 +85,46 @@ public class MapPanel extends JPanel {
     }
 
     public void mouseClicked(MouseEvent e) {
-
         int x = e.getX();
         int y = e.getY();
-
-        // Buscar si hizo clic sobre un nodo
         PuntoMapa seleccionado = null;
-
         for (PuntoMapa p : puntos) {
-            double distancia = Math.sqrt(Math.pow(x - p.getX(), 2)
-                    + Math.pow(y - p.getY(), 2));
-
+            double distancia = Math.sqrt(Math.pow(x - p.getX(), 2) + Math.pow(y - p.getY(), 2));
             if (distancia < 15) {
                 seleccionado = p;
                 break;
             }
         }
-
-        // -------- ELIMINAR --------
         if (modo.equals("ELIMINAR")) {
-
             if (seleccionado != null) {
-
                 puntos.remove(seleccionado);
-
                 this.grafo.remove(seleccionado);
+                if (seleccionado.equals(inicio)) {
+                    inicio = null;
+                }
+                if (seleccionado.equals(fin)) {
+                    fin = null;
+                }
+                ruta.clear();
                 repaint();
             }
-
             return;
         }
-
-        // -------- INICIO --------
         if (modo.equals("INICIO")) {
-
             if (seleccionado != null) {
                 inicio = seleccionado;
                 repaint();
             }
-
             return;
         }
-
-        // -------- FINAL --------
         if (modo.equals("FINAL")) {
-
             if (seleccionado != null) {
                 fin = seleccionado;
                 repaint();
             }
-
             return;
         }
         if (modo.equals("AGREGAR")) {
-
             if (seleccionado == null) {
 
                 String nombre = JOptionPane.showInputDialog("Nombre del nodo:");
@@ -147,19 +134,43 @@ public class MapPanel extends JPanel {
                     PuntoMapa punto = new PuntoMapa(x, y, nombre);
 
                     agregarPunto(punto);
+                    grafo.add(punto);
 
-                    this.grafo.add(punto);
+                    // Buscar el nodo existente más cercano
+                    PuntoMapa masCercano = null;
+                    double menorDistancia = Double.MAX_VALUE;
 
-                    // Conectar con el nodo anterior
-                    if (puntos.size() > 1) {
-                        PuntoMapa anterior = puntos.get(puntos.size() - 2);
-                        this.grafo.addEdge(anterior, punto);
+                    for (PuntoMapa p : puntos) {
+
+                        if (p.equals(punto)) {
+                            continue; // No compararse consigo mismo
+                        }
+
+                        double distancia = Math.sqrt(
+                                Math.pow(p.getX() - x, 2)
+                                        + Math.pow(p.getY() - y, 2));
+
+                        if (distancia < menorDistancia) {
+                            menorDistancia = distancia;
+                            masCercano = p;
+                        }
+                    }
+
+                    // Conectar con el nodo más cercano
+                    if (masCercano != null) {
+                        grafo.addEdge(masCercano, punto);
+
+                        System.out.println("Conectado: "
+                                + masCercano.getNombre()
+                                + " <-> "
+                                + punto.getNombre());
+
+                        grafo.printGrafo();
                     }
 
                     repaint();
                 }
             }
-
             return;
         }
     }
@@ -176,15 +187,22 @@ public class MapPanel extends JPanel {
         return puntos;
     }
 
+    // elimina el nodo inico y el nodo fin y vacia la lista de la ruta le da la
+    // orden de dibujar desde cero
     public void limpiarInicioFin() {
         inicio = null;
         fin = null;
         ruta.clear();
         repaint();
     }
-    
+
     public void setModo(String modo) {
         this.modo = modo;
+    }
+
+    public void setGrafo(Graph<PuntoMapa> grafo) {
+        this.grafo = grafo;
+        repaint();
     }
 
 }

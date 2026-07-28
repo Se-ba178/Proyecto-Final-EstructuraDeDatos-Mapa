@@ -61,7 +61,7 @@ public class Graph<T> {
 
 
 
-    ///// Ver q son 
+    // Ver q son 
     public void remove(T datos) {
         Node<T> node = new Node<>(datos);
         graph.remove(node);

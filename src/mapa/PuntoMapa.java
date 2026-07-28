@@ -1,9 +1,6 @@
 package mapa;
-
-
-
 public class PuntoMapa {
-
+    //Atributos q van a tener los nodos
     private int x;
     private int y;
     private String nombre;

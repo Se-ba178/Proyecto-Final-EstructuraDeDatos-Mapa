@@ -1,9 +1,6 @@
 package structures.node.graphs;
 import java.util.*;
 
-/**
- * PathResult
- */
 public class PathResult<T> {
     private final Set<T> visitados;
     private final List<T> camino;

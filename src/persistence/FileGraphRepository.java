@@ -2,7 +2,6 @@ package persistence;
 
 import java.io.*;
 import java.util.*;
-
 import mapa.MapPanel;
 import mapa.PuntoMapa;
 import structures.node.graphs.Graph;
@@ -77,6 +76,5 @@ public class FileGraphRepository implements GraphRepository {
         br.close();
         return grafo;
     }
-
 }
 
