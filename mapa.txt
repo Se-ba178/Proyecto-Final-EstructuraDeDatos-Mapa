@@ -275,6 +275,3 @@ EDGE;N1;N6;true
 EDGE;N1;B23;true
 EDGE;X;N20;true
 EDGE;W;B11;true
-
-META;start;B25
-META;end;J54
