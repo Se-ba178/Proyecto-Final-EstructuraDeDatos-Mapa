@@ -234,7 +234,10 @@ public class Ventana {
             mapa.setModo("AGREGAR");
             JOptionPane.showMessageDialog(frmMiVentana, "Haga clic en el mapa para crear un nodo.");
         });
+        salirD.addActionListener(e -> {
+            System.exit(0);
 
+        });
         frmMiVentana.setLocationRelativeTo(null);
         frmMiVentana.setVisible(true);
 
