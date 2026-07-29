@@ -14,7 +14,10 @@ import structures.node.graphs.algoritmos.DFSPathFinder;
 import times.MedidorTiempo;
 import times.ResultadoTiempo;
 
-public class Ventana {
+public class Ventana extends Frame {
+    public Ventana(){
+        
+    }
     public static void main(String[] args) {
 
         // creacion de la ventana principal en la q añadiremos todos los componentes
